@@ -18,7 +18,7 @@ def get_html(url):
 def details(item):
     return {
         "name": item.find(class_='link_search_title').get('title'),
-        "price": int(item.find('p', class_='item-box__item-price').text.replace("￥","").replace(",",""))
+        "price": int(item.find('p', class_='item-box__item-price').text.replace("¥","").replace(",",""))
     } 
 
 def df_maker(items_list):
@@ -63,12 +63,19 @@ def main():
     url="https://fril.jp/s?query="+search_text+"&transaction=selling"
 
     items_list=[]
-    for i in range(3):
+    res=get_html(url)
+    soup=bs(res.content,"html.parser")
+
+    max_page = int(soup.find_all(class_="col-xs-4 pager-text")[0].text.replace("\n ","").replace( " ","").replace( "ページ","").replace( " ","").split("/")[1])
+
+    for i in stqdm(range(max_page)):
         res=get_html(url)
         soup=bs(res.content,"html.parser")
         items=soup.find_all(class_="view view_grid")
         items=items[0].findAll(class_="item")
         items_list+=[item for item in items]
+        url = "https://fril.jp/s?order=desc&"+"page="+str(i+2)+"&query="+"ps5本体"+"&sort=created_at&transaction=selling"
+
     
     df = df_maker(items_list)
 
