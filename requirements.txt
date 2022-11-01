@@ -4,4 +4,4 @@ matplotlib
 beautifulsoup4
 django==2.2
 gunicorn
-stqdm
+stqdm==0.0.4
