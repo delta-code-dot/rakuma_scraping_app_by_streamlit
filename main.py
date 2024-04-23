@@ -5,6 +5,7 @@ import modules
 
 def main():
     st.title('rakuma_price_survey')
+
     
     with st.form('text_form'):
         search_text = st.text_input('商品名を入力')
@@ -13,7 +14,7 @@ def main():
     
     if button:
     
-        url="https://fril.jp/s?query="+search_text+"&transaction=selling"
+        url = f"https://fril.jp/s?query={search_text}&transaction=selling"
 
         items_list=[]
         res=modules.get_html(url)
@@ -27,7 +28,7 @@ def main():
             items=soup.find_all(class_="view view_grid")
             items=items[0].findAll(class_="item")
             items_list+=[item for item in items]
-            url = f"https://fril.jp/s?order=desc&page={str(i+2)}&query={search_text}&sort=created_at&transaction=selling"
+            url = f"https://fril.jp/s?order=desc&page={i+2}&query={search_text}&sort=created_at&transaction=selling"
 
         
         df = modules.df_maker(items_list)
