@@ -31,8 +31,8 @@ def df_maker(items_list):
 def histgram_creater(df):
     x = df.price
 
-    quantile_1 = x.quantile(0.25)
-    quantile_3 = x.quantile(0.75)
+    quantile_1 = x.quantile(0.05)
+    quantile_3 = x.quantile(0.95)
     dif = quantile_3-quantile_1
     limit_up = quantile_3+1.5*(dif)
     limit_down = quantile_1-1.5*(dif)
